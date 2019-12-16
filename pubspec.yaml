@@ -11,18 +11,14 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   tflite: ^1.0.4
-  image: ^2.1.7
+  image:
   fl_chart: ^0.2.2
+  # image_gallery_saver: ^1.2.2
+  # simple_permissions: ^0.1.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.7.2"
-
-flutter_icons:
-  android: "launcher_icon" 
-  ios: false
-  image_path: "assets/logo.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -40,7 +36,6 @@ flutter:
   assets:
     - assets/converted_mnist_model.tflite
     - assets/labels.txt
-    - assets/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

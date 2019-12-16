@@ -3,24 +3,14 @@ import 'dart:typed_data';
 import 'dart:ui' hide Image;
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as im;
+import 'package:numreka/models/drawingPainter.dart';
 import 'package:tflite/tflite.dart';
 import 'package:flutter/services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:numreka/models/constants.dart';
-//import 'package:image_gallery_saver/image_gallery_saver.dart';
-//import 'package:simple_permissions/simple_permissions.dart';
 
-final Paint drawingPaint = Paint()
-  ..strokeCap = StrokeCap.square
-  ..isAntiAlias = kIsAntiAlias
-  ..color = kBrushColor
-  ..strokeWidth = kStrokeWidth;
-
-final Paint whitePaint = Paint()
-  ..strokeCap = StrokeCap.square
-  ..isAntiAlias = kIsAntiAlias
-  ..color = kBrushWhite
-  ..strokeWidth = kStrokeWidth;
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:simple_permissions/simple_permissions.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -78,8 +68,8 @@ class _HomePage extends State<HomePage> {
     final imgBytes = await img.toByteData(format: ImageByteFormat.png);
     Uint8List pngUint8List = imgBytes.buffer.asUint8List();
 
-//    List<int> pngListInt = pngUint8List.cast<int>();
-//    final result = await ImageGallerySaver.save(pngUint8List);
+  //  List<int> pngListInt = pngUint8List.cast<int>();
+  //  final result = await ImageGallerySaver.save(pngUint8List);
 
     im.Image imImage = im.decodeImage(pngUint8List);
     im.Image resizedImage = im.copyResize(
@@ -87,7 +77,7 @@ class _HomePage extends State<HomePage> {
       width: kModelInputSize,
       height: kModelInputSize,
     );
-//    await ImageGallerySaver.saveImage(im.encodePng(resizedImage));
+    // await ImageGallerySaver.saveImage(im.encodePng(resizedImage));
     _predictImage(resizedImage);
   }
 
@@ -187,8 +177,8 @@ class _HomePage extends State<HomePage> {
     super.initState();
     _loadModel();
     _cleanDrawing();
-//    _requestStoragePermission();
     _buildBarChartInfo();
+    //  _requestStoragePermission();
   }
 
   @override
@@ -329,7 +319,6 @@ class _HomePage extends State<HomePage> {
                               show: false,
                             ),
                             barGroups: items,
-                            // read about it in the below section
                           ),
                         ),
                       ),
@@ -346,32 +335,7 @@ class _HomePage extends State<HomePage> {
           )
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     _cleanDrawing();
-      //     _buildBarChartInfo();
-      //   },
-      //   tooltip: 'Clean',
-      //   child: Icon(Icons.restore),
-      //   backgroundColor: Color(0xFF006699),
-      // ),
     );
   }
 }
 
-class DrawingPainter extends CustomPainter {
-  DrawingPainter({this.offsetPoints});
-  List<Offset> offsetPoints;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (int i = 0; i < offsetPoints.length - 1; i++) {
-      if (offsetPoints[i] != null && offsetPoints[i + 1] != null) {
-        canvas.drawLine(offsetPoints[i], offsetPoints[i + 1], drawingPaint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(DrawingPainter oldDelegate) => true;
-}
